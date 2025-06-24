@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body class="wrapper container">
+
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="myChart" style="width:100%;"></canvas>
+    </div>
+    <h2>THIS CHART ABOVE WILL GIVE YOU THE YEARLY AVERAGE OF USD TO PKR EXCHANGE RATE</h2>
+</div>
+
+<script>
+
+var barColors = ["blue"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: {{status_labels | safe}},
+    datasets: [{
+      backgroundColor: barColors,
+      data: {{status_count}},
+      borderColor: "black",
+      borderWidth: 1
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Status wise ticket count - last 7 days"
+    }
+  }
+});
+
+</script>
+
+</body>
+
+{% endblock %}

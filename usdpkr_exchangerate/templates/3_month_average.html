@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>The graph represents the 3 month moving average vs actual month rate of the USD to PKR exchange rate</h1>
+<canvas id="lineChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('lineChart').getContext('2d');
+const lineChart = new Chart(ctx, {
+type: 'line',
+data: {
+labels: {{ status_labels|safe }},
+datasets: [
+{
+label: 'Actual Monthly Average',
+data: {{ actual_values|safe }},
+borderColor: 'blue',
+fill: false,
+tension: 0.1
+},
+{
+label: '3-Month Moving Average',
+data: {{ moving_avg_values|safe }},
+borderColor: 'orange',
+fill: false,
+tension: 0.1
+}
+]
+},
+options: {
+responsive: true,
+scales: {
+y: {
+beginAtZero: true
+}
+}
+}
+});
+</script>
+
+{% endblock %}

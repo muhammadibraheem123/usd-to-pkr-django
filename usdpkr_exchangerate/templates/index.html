@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div class="container">
+<h2>Currency Converter</h2>
+
+<!-- USD to PKR Form -->
+<form method="post">
+  {% csrf_token %}
+  <label for="usd_amount">Enter USD:</label>
+  <input type="number" step="any" name="usd_amount" id="usd_amount" value="{{ usd|default_if_none:'' }}">
+  <button type="submit" name="usd_to_pkr">Convert to PKR</button>
+</form>
+
+{% if converted_pkr is not None %}
+  <p>{{ usd|floatformat:2 }} USD = {{ converted_pkr|floatformat:2 }} PKR</p>
+{% endif %}
+
+<hr>
+
+<!-- PKR to USD Form -->
+<form method="post">
+  {% csrf_token %}
+  <label for="pkr_amount">Enter PKR:</label>
+  <input type="number" step="any" name="pkr_amount" id="pkr_amount" value="{{ pkr|default_if_none:'' }}">
+  <button type="submit" name="pkr_to_usd">Convert to USD</button>
+</form>
+
+{% if converted_usd is not None %}
+  <p>{{ pkr|floatformat:2 }} PKR = {{ converted_usd|floatformat:2 }} USD</p>
+{% endif %}
+
+{% if error %}
+  <p style="color:red;">{{ error }}</p>
+{% endif %}
+</div>
+{% endblock %}

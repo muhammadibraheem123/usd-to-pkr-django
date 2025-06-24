@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>HISTORY OF EXCHANGE RATE</h1>
+<canvas id="lineChart" style="width:100%; max-width:700px; height:400px;"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const labels = [
+    {% for row in data %}
+      "{{ row.Date }}"{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  const values = [
+    {% for row in data %}
+      {{ row.USD_to_PKR }}{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  const ctx = document.getElementById('lineChart').getContext('2d');
+
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'My Line Chart',
+        data: values,
+        fill: false,
+        borderColor: 'blue',
+        tension: 0.1
+      }]
+    },
+    options: {
+      scales: {
+        x: {
+          title: { display: true, text: 'Column 1' }
+        },
+        y: {
+          title: { display: true, text: 'Column 2' },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}
